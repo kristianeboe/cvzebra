@@ -1,53 +1,71 @@
 import React, { Component } from 'react'
 import {
-  Button,
   Menu,
-  Icon,
-  Sidebar,
-  Segment,
+  Container,
+  Modal,
   Header,
-  Image
+  Button,
 } from 'semantic-ui-react'
+import {
+  Link
+} from 'react-router-dom'
+import firebase from './firebase'
+import SignUp from './SignUp'
+
 
 class AppHeader extends Component {
 
-  
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null,
+    };
+  }
+
+  componentWillMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ user })
+
+      } else {
+        this.setState({ user })
+      }
+    });
+  }
+
+  logout = () => {
+    firebase.auth().signOut().then(function () {
+      // Sign-out successful.
+    }).catch(function (error) {
+      console.log(error)
+      // An error happened.
+    });
+  }
+
+
+
+
+
   render() {
 
-    const {visible, toggleVisibility} = this.props
     return (
-      <div className="AppHeader">
-        <Icon name='bars' size='big' onClick={toggleVisibility} style={{
-          position: 'fixed',
-          top: '0.5em',
-          right: '0.5em',
-          zIndex: '5',
-        }}/>
-        <Sidebar
-            as={Menu}
-            animation='push'
-            width='wide'
-            direction='right'
-            visible={visible}
-            icon='labeled'
-            vertical
-            inverted
-          >
-          <Menu.Item name='home'>
-            <Icon name='home' />
-              Home
-          </Menu.Item>
-          <Menu.Item name='gamepad'>
-            <Icon name='gamepad' />
-              Games
-          </Menu.Item>
-          <Menu.Item name='camera'>
-            <Icon name='camera' />
-              Channels
-          </Menu.Item>
-        </Sidebar>
-      </div>
-    )
+      <Menu fixed='top' inverted>
+        <Container>
+          <Link to="/"><Menu.Item header>CV Zebra</Menu.Item></Link>
+          <Menu.Menu position='right'>
+            {this.state.user ?
+              <Link to="/"><Menu.Item onClick={this.logout} >Log out</Menu.Item></Link>
+              :
+              <Link to="/sign-up"><Menu.Item >Log in</Menu.Item></Link>
+            }
+            {this.state.user ?
+              <Link to="/upload"><Menu.Item>Upload</Menu.Item></Link>
+              :
+              <Link to="/sign-up"><Menu.Item >Upload</Menu.Item></Link>
+            }
+          </Menu.Menu>
+        </Container>
+      </Menu>)
   }
 }
 
