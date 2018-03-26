@@ -26,8 +26,8 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/upload" component={Upload} />
           <Route exact path="/sign-up" component={SignUp} />
-          <Route path="/:comapnyId/:recordId" component={Record} />
-          <Route path="/:comapnyId" component={CompanyPage} />
+          <Route exact path="/company/:comapnyId/record/:recordId" component={Record} />
+          <Route exact path="/company/:comapnyId" component={CompanyPage} />
         </Switch>
         {/* <MyUploads user={this.state.user} /> */}
       </div>

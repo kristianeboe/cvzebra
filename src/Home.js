@@ -50,7 +50,7 @@ class Home extends Component {
       const companyName = companyOptions.find(c => c.key == this.state.selectedCompany).text
 
       return <Redirect push to={{
-        pathname: "/" + selectedCompany,
+        pathname: "/company/" + selectedCompany,
         state: { companyName: companyName }
       }} />
     }
